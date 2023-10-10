@@ -151,7 +151,6 @@ def rgbd2pcd(color_p,depth_p,name):
 
 test_path='/mnt/yangzhou/dataset/matterport/npy/test_full/'
 # gt_path='/mnt/yangzhou/dataset/matterport/test/GT_depth/'
-rm_path='/home/yangzhou/mae_color/rm.txt'
 
 chkpt_dir = "/mnt/yangzhou/finetune/checkpoint-10.pth"
 model_mae = prepare_model(chkpt_dir, 'mae_vit_large_patch16')
@@ -164,7 +163,6 @@ print('MAE with pixel reconstruction:')
 rmse = []
 mae = []
 ssip=[]
-rm = []
 test_list = os.listdir(test_path)
 
 # with open(rm_path, "r") as f:
@@ -178,10 +176,6 @@ for i,scene in enumerate(test_list):
     frames = os.listdir(scene_path)
     for j,frame in enumerate(frames):
         frame_path = os.path.join(scene_path,frame)
-        if frame_path in rm:
-            print(frame_path)
-            continue
-
         img_np = np.load(frame_path)
         depth = img_np[:,:,3]
         depth = Image.fromarray(depth)
