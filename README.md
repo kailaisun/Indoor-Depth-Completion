@@ -65,7 +65,7 @@ pip install matplotlib scipy numpy opencv-python pillow typing-extensions=4.2.0
 
 </details>
 
-### Install TTP
+### Install IDC
 
 
 Download or clone the repository.
@@ -104,7 +104,7 @@ ${DATASET_ROOT} # Dataset root directory, for example: /home/username/data/levir
 ```
 
 Note: In the project folder, we provide a folder named `data`, which contains an example of the organization method of the above dataset.
-
+</details>
 ## Model Training
 
 ### TTP Model
