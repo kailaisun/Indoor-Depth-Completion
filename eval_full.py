@@ -18,6 +18,8 @@ def get_args_parser():
                         help='test dataset path')
     parser.add_argument('--checkpoint', default='/checkpoint-finetune.pth',
                         help='finetune from checkpoint')
+    parser.add_argument('--output_dir', default='/output', type=str,
+                        help='output path')
 
 def prepare_model(chkpt_dir, arch='mae_vit_large_patch16'):
     # build model
@@ -35,7 +37,7 @@ def save_image(image, title=''):
     plt.axis('off')
     return
 
-def run_one_image(img, model):
+def run_one_image(img, model, output):
     x = torch.tensor(img)
 
     # make it a batch-like
@@ -66,11 +68,11 @@ def run_one_image(img, model):
     ss = ssim_helper(target, pred).data.numpy()
 
     if ss>0.6:
-        rgb2file(np.uint8((np.array(img[:,:,0:3]))*255),f'examples/{ss}_color.jpg')
-        depth2file(np.uint16(pred_np*4000),'examples/pred.png')
-        depth2file(np.uint16(gt_np*4000),'examples/gt.png')
-        rgbd2pcd(f'examples/{ss}_color.jpg','examples/pred.png',f'examples/{ss}_pred.ply')
-        rgbd2pcd(f'examples/{ss}_color.jpg','examples/gt.png',f'examples/{ss}_gt.ply')
+        rgb2file(np.uint8((np.array(img[:,:,0:3]))*255),f'{output}/{ss}_color.jpg')
+        depth2file(np.uint16(pred_np*4000),'{output}/pred.png')
+        depth2file(np.uint16(gt_np*4000),'{output}/gt.png')
+        rgbd2pcd(f'{output}/{ss}_color.jpg','{output}/pred.png',f'{output}/{ss}_pred.ply')
+        rgbd2pcd(f'{output}/{ss}_color.jpg','{output}/gt.png',f'{output}/{ss}_gt.ply')
 
     return rmse,mean,ss
 
@@ -95,6 +97,7 @@ def rgbd2pcd(color_p,depth_p,name):
 def main(args):
     test_path = args.data_path
     chkpt_dir = args.checkpoint
+    output = args.output_dir
 
     model_mae = prepare_model(chkpt_dir, 'mae_vit_large_patch16')
     print('Model loaded.')
@@ -127,7 +130,7 @@ def main(args):
         
             img_np =  np.concatenate((color/255,np.expand_dims(depth,axis=-1),np.expand_dims(tg,axis=-1)),axis=-1)
 
-            rmse_, mae_, ssip_ = run_one_image(img_np, model_mae)
+            rmse_, mae_, ssip_ = run_one_image(img_np, model_mae, output)
             rmse.append(rmse_)
             mae.append(mae_)
             ssip.append(ssip_)
