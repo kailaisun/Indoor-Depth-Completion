@@ -109,7 +109,7 @@ sh ./tools/dist_train.sh configs/TTP/xxx.py ${GPU_NUM}  # xxx.py is the configur
 #### Pretraining
 
 ```shell
-python tools/test.py configs/TTP/xxx.py ${CHECKPOINT_FILE}  # xxx.py is the configuration file you want to use, CHECKPOINT_FILE is the checkpoint file you want to use
+python main_pretrain.py configs/TTP/xxx.py ${CHECKPOINT_FILE}  # xxx.py is the configuration file you want to use, CHECKPOINT_FILE is the checkpoint file you want to use
 ```
 
 #### Finetuning
@@ -119,6 +119,12 @@ sh ./tools/dist_test.sh configs/TTP/xxx.py ${CHECKPOINT_FILE} ${GPU_NUM}  # xxx.
 ```
 
 ## Image Prediction
+
+#### Checkpoints:
+
+-Pretraining:[Download](https://1drv.ms/u/s!AnkbiBgsbBltncFzOKh44t9DHR6Aiw?e=ivNDxH)
+
+-Finetuning:[Download](https://1drv.ms/u/s!AnkbiBgsbBltncF0u-3e5rkH2yOTkg?e=WQ1wle)
 
 #### Single Image Prediction:
 
