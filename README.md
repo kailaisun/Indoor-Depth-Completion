@@ -76,7 +76,8 @@ cd Indoor-Depth-Completion
 
 #### Dataset Download
 
-- Image and label download address: [Matterport3D for Depth Completion](https://github.com/tsunghan-wu/Depth-Completion/blob/master/doc/data.md).
+Image and label download address: [Matterport3D for Depth Completion](https://github.com/tsunghan-wu/Depth-Completion/blob/master/doc/data.md).It includes:
+
 - train : A training dataset of npy files which is concatenated from rgb images and gt depth images for pre-training.
 - test : A testing dataset of npy files which is concatenated from rgb images and gt depth images for pre-training.
 - train_full : A training dataset of npy files which is concatenated from rgb images, raw depth images and gt depth images for finetuning.
