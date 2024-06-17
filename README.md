@@ -32,7 +32,6 @@ We recommend using Miniconda for installation. The following command will create
 
 Note: If you have experience with PyTorch and have already installed it, you can skip to the next section. Otherwise, you can follow these steps to prepare.
 
-<details>
 
 **Step 0**: Install [Miniconda](https://docs.conda.io/projects/miniconda/en/latest/index.html).
 
@@ -62,9 +61,6 @@ pip install timm=0.4.9
 pip install matplotlib scipy numpy opencv-python pillow typing-extensions=4.2.0
 ```
 
-
-</details>
-
 ### Install IDC
 
 
@@ -77,7 +73,6 @@ cd Indoor-Depth-Completion
 
 ## Dataset Preparation
 
-<details>
 
 #### Dataset Download
 
@@ -87,7 +82,6 @@ cd Indoor-Depth-Completion
 - train_full : A training dataset of npy files which is concatenated from rgb images, raw depth images and gt depth images for finetuning.
 - test_full : A testing dataset of npy files which is concatenated from rgb images, raw depth images and gt depth images for finetuning.
 
-</details>
 
 
 ## Model Training
