@@ -121,38 +121,14 @@ def main(args):
     cudnn.benchmark = True
     
     def depthTotensor(img):
-        # img = img.resize((224,224))
-        # img = np.array(img, dtype=np.int16)
-        # img = img / 10000
-        # img[img < 0.0001] = 0
-        # img = torch.tensor(img)
-        # img = img.unsqueeze(0).repeat(3,1,1)
-        # img = img.type(torch.HalfTensor)
         img = img.float()
         return img
-    
-    # from typing import Any, Callable, cast, Dict, List, Optional, Tuple
-    # class RGBDFolder(datasets.DatasetFolder):
-    #     def __init__(self, 
-    #                  root: str, 
-    #                  loader: Callable[[str], Any]= Image.open, 
-    #                  extensions: Optional[Tuple[str, ...]] = None, 
-    #                  transform: Optional[Callable] = None, 
-    #                  target_transform: Optional[Callable] = None, 
-    #                  is_valid_file: Optional[Callable[[str], bool]] = None):
-    #         super().__init__(root, loader, extensions, transform, target_transform, is_valid_file)
-
-    # simple augmentation
-
 
     transform_train = transforms.Compose([\
             transforms.ToTensor(),
             transforms.RandomResizedCrop(args.input_size, scale=(0.2, 1.0), interpolation=0),  # 3 is bicubic
             transforms.RandomHorizontalFlip(),           
             transforms.Lambda(lambda img:depthTotensor(img))
-            # transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])])
-            # transforms.Normalize(mean=[0.0096, 0.0096, 0.0096], std=[3.2286e-05 ** 2, 3.2286e-05 ** 2, 3.2286e-05 ** 2])
-            # transforms.Normalize(mean=[0.02, 0.02, 0.02], std=[0.02, 0.02, 0.02])
             ])
     dataset_train = datasets.ImageFolder(args.data_path, transform=transform_train,loader=np.load)
     # dataset = torch.tensor([np.array(dataset_train[i][0]) for i in range(len(dataset_train))])
