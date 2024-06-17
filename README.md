@@ -95,30 +95,16 @@ cd Indoor-Depth-Completion
 #### Pretraining
 
 ```shell
-python tools/train.py configs/TTP/xxx.py  # xxx.py is the configuration file you want to use
+python main_pretrain.py  --data_path /npy/train 
 ```
 
 #### Finetuning
 
 ```shell
-sh ./tools/dist_train.sh configs/TTP/xxx.py ${GPU_NUM}  # xxx.py is the configuration file you want to use, GPU_NUM is the number of GPUs used
+python main_fintune_full.py  --data_path /npy/train_full --eval_data_path /npy/test_full
 ```
 
 ## Model Testing
-
-#### Pretraining
-
-```shell
-python main_pretrain.py configs/TTP/xxx.py ${CHECKPOINT_FILE}  # xxx.py is the configuration file you want to use, CHECKPOINT_FILE is the checkpoint file you want to use
-```
-
-#### Finetuning
-
-```shell
-sh ./tools/dist_test.sh configs/TTP/xxx.py ${CHECKPOINT_FILE} ${GPU_NUM}  # xxx.py is the configuration file you want to use, CHECKPOINT_FILE is the checkpoint file you want to use, GPU_NUM is the number of GPUs used
-```
-
-## Image Prediction
 
 #### Checkpoints:
 
@@ -126,15 +112,15 @@ sh ./tools/dist_test.sh configs/TTP/xxx.py ${CHECKPOINT_FILE} ${GPU_NUM}  # xxx.
 
 -Finetuning:[Download](https://1drv.ms/u/s!AnkbiBgsbBltncF0u-3e5rkH2yOTkg?e=WQ1wle)
 
-#### Single Image Prediction:
+#### Evaluation and Depth Image Prediction:
 
 ```shell
-python demo/image_demo_with_cdinferencer.py ${IMAGE_FILE1} ${IMAGE_FILE2} configs/TTP/ttp_sam_large_levircd_infer.py --checkpoint ${CHECKPOINT_FILE} --out-dir ${OUTPUT_DIR}  # IMAGE_FILE is the image file you want to predict, xxx.py is the configuration file, CHECKPOINT_FILE is the checkpoint file you want to use, OUTPUT_DIR is the output path of the prediction result
+python eval_full.py --data_path /npy/test_full --checkpoint /checkpoint-finetune.pth --output_dir /output # data_path is the file to be tested, checkpoint is the checkpoint file you want to use, output_dir is the output path of the prediction result, including predicted depth images and point clouds.
 ```
 
 ## Acknowledgements
 
-The repository is the code implementation of the paper [Time Travelling Pixels: Bitemporal Features Integration with Foundation Model for Remote Sensing Image Change Detection](https://arxiv.org/abs/2312.16202), based on [MMSegmentation](https://github.com/open-mmlab/mmsegmentation) and [Open-CD](https://github.com/likyoo/open-cd) projects.
+The repository is the code implementation of the paper [A Two-Stage Masked Autoencoder Based Network for Indoor Depth Completion], based on [MAE](https://github.com/facebookresearch/mae) projects.
 
 ## Citation
 
