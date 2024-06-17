@@ -82,93 +82,41 @@ cd Indoor-Depth-Completion
 #### Dataset Download
 
 - Image and label download address: [Matterport3D for Depth Completion](https://github.com/tsunghan-wu/Depth-Completion/blob/master/doc/data.md).
+- train : A training dataset of npy files which is concatenated from rgb images and gt depth images for pre-training.
+- test : A testing dataset of npy files which is concatenated from rgb images and gt depth images for pre-training.
+- train_full : A training dataset of npy files which is concatenated from rgb images, raw depth images and gt depth images for finetuning.
+- test_full : A testing dataset of npy files which is concatenated from rgb images, raw depth images and gt depth images for finetuning.
 
-#### Organization Method
-
-You can also choose other sources to download the data, but you need to organize the dataset in the following format:
-
-```
-${DATASET_ROOT} # Dataset root directory, for example: /home/username/data/levir-cd
-├── train
-│   ├── A
-│   ├── B
-│   └── label
-├── val
-│   ├── A
-│   ├── B
-│   └── label
-└── test
-    ├── A
-    ├── B
-    └── label
-```
-
-Note: In the project folder, we provide a folder named `data`, which contains an example of the organization method of the above dataset.
 </details>
+
 
 ## Model Training
 
-### TTP Model
-
-#### Config File and Main Parameter Parsing
-
-We provide the configuration files of the TTP model used in the paper, which can be found in the `configs/TTP` folder. The Config file is completely consistent with the API interface and usage of MMSegmentation. Below we provide an analysis of some of the main parameters. If you want to know more about the meaning of the parameters, you can refer to [MMSegmentation documentation](https://mmsegmentation.readthedocs.io/zh-cn/latest/user_guides/1_config.html).
-<details>
-
-**Parameter Parsing**:
-
-- `work_dir`: The output path of the model training, which generally does not need to be modified.
-- `default_hooks-CheckpointHook`: Checkpoint saving configuration during model training, which generally does not need to be modified.
-- `default_hooks-visualization`: Visualization configuration during model training, **comment out during training and uncomment during testing**.
-- `vis_backends-WandbVisBackend`: Configuration of network-side visualization tools, **after opening the comment, you need to register an account on the `wandb` official website, and you can view the visualization results during the training process in the network browser**.
-- `sam_pretrain_ckpt_path`: The checkpoint path of the SAM backbone provided by MMPretrain, refer to [download address](https://github.com/open-mmlab/mmpretrain/tree/main/configs/sam).
-- `model-backbone-peft_cfg`: Whether to introduce fine-tuning parameters, which generally does not need to be modified.
-- `dataset_type`: The type of dataset, **needs to be modified according to the type of dataset**.
-- `data_root`: Dataset root directory, **modify to the absolute path of the dataset root directory**.
-- `batch_size_per_gpu`: The batch size of a single card, **needs to be modified according to the memory size**.
-- `resume`: Whether to resume training, which generally does not need to be modified.
-- `load_from`: The checkpoint path of the model's pre-training, which generally does not need to be modified.
-- `max_epochs`: The maximum number of training rounds, which generally does not need to be modified.
-
-</details>
-
-
-#### Single Card Training
+#### Pretraining
 
 ```shell
 python tools/train.py configs/TTP/xxx.py  # xxx.py is the configuration file you want to use
 ```
 
-#### Multi-card Training
+#### Finetuning
 
 ```shell
 sh ./tools/dist_train.sh configs/TTP/xxx.py ${GPU_NUM}  # xxx.py is the configuration file you want to use, GPU_NUM is the number of GPUs used
 ```
 
-### Other Instance Segmentation Models
-
-<details>
-
-If you want to use other change detection models, you can refer to [Open-CD](https://github.com/likyoo/open-cd) to train the models, or you can put their Config files into the `configs` folder of this project, and then train them according to the above method.
-
-</details>
-
 ## Model Testing
 
-#### Single Card Testing:
+#### Pretraining
 
 ```shell
 python tools/test.py configs/TTP/xxx.py ${CHECKPOINT_FILE}  # xxx.py is the configuration file you want to use, CHECKPOINT_FILE is the checkpoint file you want to use
 ```
 
-#### Multi-card Testing:
+#### Finetuning
 
 ```shell
 sh ./tools/dist_test.sh configs/TTP/xxx.py ${CHECKPOINT_FILE} ${GPU_NUM}  # xxx.py is the configuration file you want to use, CHECKPOINT_FILE is the checkpoint file you want to use, GPU_NUM is the number of GPUs used
 ```
-
-**Note**: If you need to get the visualization results, you can uncomment `default_hooks-visualization` in the Config file.
-
 
 ## Image Prediction
 
@@ -177,47 +125,6 @@ sh ./tools/dist_test.sh configs/TTP/xxx.py ${CHECKPOINT_FILE} ${GPU_NUM}  # xxx.
 ```shell
 python demo/image_demo_with_cdinferencer.py ${IMAGE_FILE1} ${IMAGE_FILE2} configs/TTP/ttp_sam_large_levircd_infer.py --checkpoint ${CHECKPOINT_FILE} --out-dir ${OUTPUT_DIR}  # IMAGE_FILE is the image file you want to predict, xxx.py is the configuration file, CHECKPOINT_FILE is the checkpoint file you want to use, OUTPUT_DIR is the output path of the prediction result
 ```
-
-
-
-## FAQ
-
-<details>
-
-We have listed some common problems and their corresponding solutions here. If you find that some problems are missing, please feel free to provide a PR to enrich this list. If you cannot get help here, please use [issue](https://github.com/KyanChen/TTP/issues) to seek help. Please fill in all the required information in the template, which will help us locate the problem faster.
-
-### 1. Do I need to install MMSegmentation, MMPretrain, MMDet, Open-CD?
-
-We recommend that you do not install them, because we have partially modified their code, which may cause errors in the code if you install them. If you get an error that the module has not been registered, please check:
-
-- Whether these libraries are installed, if so, uninstall them
-- Whether `@MODELS.register_module()` is added in front of the class name, if not, add it
-- Whether `from .xxx import xxx` is added in `__init__.py`, if not, add it
-- Whether `custom_imports = dict(imports=['mmseg.ttp'], allow_failed_imports=False)` is added in the Config file, if not, add it
-
-
-### 2. About resource consumption
-
-Here we list the resource consumption of using different training methods for your reference.
-
-
-| Model Name |  Backbone Type  |  Image Size   |       GPU       | Batch Size | Acceleration Strategy | Single Card Memory Usage  | Training Time |
-|:----:|:--------:|:-------:|:---------------:|:----------:|:----:|:-------:|:----:|
-| TTP  | ViT-L/16 | 512x512 | 4x RTX 4090 24G |     2      | FP32 |  14 GB  |  3H  |
-| TTP  | ViT-L/16 | 512x512 | 4x RTX 4090 24G |     2      | FP16 |  12 GB  |  2H  |
-
-
-
-
-### 4. Solution to dist_train.sh: Bad substitution
-
-If you get a `Bad substitution` error when running `dist_train.sh`, use `bash dist_train.sh` to run the script.
-
-
-### 5. You should set `PYTHONPATH` to make `sys.path` include the directory which contains your custom module
-
-Please check the detailed error message, generally some dependent packages are not installed, please use `pip install` to install the dependent packages.
-</details>
 
 ## Acknowledgements
 
