@@ -1,6 +1,6 @@
 ## Introduction
 
-The repository is the code implementation of the paper [A Two-Stage Masked Autoencoder Based Network for Indoor Depth Completion], based on [MAE](https://github.com/facebookresearch/mae) projects.
+The repository is the code implementation of the paper [A Two-Stage Masked Autoencoder Based Network for Indoor Depth Completion](https://arxiv.org/abs/2406.09792), based on [MAE](https://github.com/facebookresearch/mae) projects.
 
 If you find this project helpful, please give us a star ⭐️, your support is our greatest motivation.
 
@@ -115,22 +115,23 @@ python eval_full.py --data_path /npy/test_full --checkpoint /checkpoint-finetune
 
 ## Acknowledgements
 
-The repository is the code implementation of the paper [A Two-Stage Masked Autoencoder Based Network for Indoor Depth Completion], based on [MAE](https://github.com/facebookresearch/mae) projects.
+The repository is the code implementation of the paper [A Two-Stage Masked Autoencoder Based Network for Indoor Depth Completion](https://arxiv.org/abs/2406.09792), based on [MAE](https://github.com/facebookresearch/mae) projects.
 
 ## Citation
 
-If you use the code or performance benchmarks of this project in your research, please refer to the following bibtex to cite TTP.
+If you use the code or performance benchmarks of this project in your research, please refer to the following bibtex to cite.
 
 ```
-@misc{chen2023time,
-      title={Time Travelling Pixels: Bitemporal Features Integration with Foundation Model for Remote Sensing Image Change Detection}, 
-      author={Keyan Chen and Chengyang Liu and Wenyuan Li and Zili Liu and Hao Chen and Haotian Zhang and Zhengxia Zou and Zhenwei Shi},
-      year={2023},
-      eprint={2312.16202},
+@misc{sun2024twostage,
+      title={A Two-Stage Masked Autoencoder Based Network for Indoor Depth Completion}, 
+      author={Kailai Sun and Zhou Yang and Qianchuan Zhao},
+      year={2024},
+      eprint={2406.09792},
       archivePrefix={arXiv},
       primaryClass={cs.CV}
 }
 ```
+
 
 ## License
 
