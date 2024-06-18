@@ -21,7 +21,7 @@ If you find this project helpful, please give us a star ⭐️, your support is 
 
 ### Dependencies
 
-- Ubuntupyt
+- Ubuntu
 - Python 3.7+, recommended 3.7.0
 - PyTorch 1.9.0 or higher, recommended 1.9.1+cu111
 - CUDA 12.4 or higher, recommended 12.4
