@@ -2,6 +2,10 @@
 
 The repository is the code implementation of the paper [A Two-Stage Masked Autoencoder Based Network for Indoor Depth Completion](https://arxiv.org/abs/2406.09792), based on [MAE](https://github.com/facebookresearch/mae) projects.
 
+
+<img src="cvpr-show.jpg" width="100%">
+
+
 If you find this project helpful, please give us a star ⭐️, your support is our greatest motivation.
 
 ## Table of Contents
