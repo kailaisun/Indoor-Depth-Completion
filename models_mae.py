@@ -293,7 +293,7 @@ class MaskedAutoencoderViT(nn.Module):
         return loss
 
     def forward(self, imgs, mask_ratio=0.5):
-        selected_channels = torch.tensor([0, 1, 2, 4])  # 创建一个包含所需通道索引的张量
+        selected_channels = torch.tensor([0, 1, 2, 4])
         imgs = imgs[:, selected_channels, :, :] 
         latent, mask, ids_restore = self.forward_encoder(imgs, mask_ratio)
         pred = self.forward_decoder(latent, ids_restore)  # [N, L, p*p*3]
