@@ -93,7 +93,7 @@ Image and label download address: [Matterport3D for Depth Completion](https://1d
 #### Pretraining
 
 ```shell
-python main_pretrain.py  --data_path /npy/train 
+python main_pretrain.py  --data_path /npy/train_full 
 ```
 
 #### Finetuning
