@@ -8,6 +8,7 @@ The repository is the code implementation of the paper [A Two-Stage Masked Autoe
 
 If you find this project helpful, please give us a star ⭐️, your support is our greatest motivation.
 
+This work is accepted by the Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) Workshop: [Computer Vision in the Built Environment](https://cv4aec.github.io/).
 ## Table of Contents
 
 - [Introduction](#introduction)
